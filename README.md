@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎭 StageBook Web
 
-## Getting Started
+> **La evolución de la gestión teatral.** 
 
-First, run the development server:
+StageBook es una herramienta integral diseñada para directores, actores y escritores dramáticos. Permite gestionar obras, organizar ensayos y dominar guiones con una interfaz minimalista optimizada para la concentración y la creatividad.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Estado del Proyecto: Semana 1 (Landing & Design System)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Actualmente, el proyecto ha completado su primera fase de desarrollo, estableciendo la base visual y la experiencia de usuario (UX).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### ✨ Características Destacadas
+- **Sistema de Diseño "Artístico":** Paleta de colores de alto contraste (Negro Profundo y Hueso `#F9F6EE`) diseñada para reducir la fatiga visual durante largas sesiones de escritura.
+- **Micro-interacciones Avanzadas:** - **Dynamic Typewriter:** Un sistema de escritura animada que simula una máquina de escribir real con lógica de limpieza de memoria.
+  - **Vertical Text Ticker:** Transiciones de frases con física de resorte (*Spring Physics*) mediante Framer Motion.
+  - **Cursor Inteligente:** Cursor dinámico que detecta estados de animación para alternar entre modo sólido y parpadeo suave (*Soft Pulse*).
+- **Arquitectura Limpia:** Desarrollado con componentes reutilizables y tipado estricto en TypeScript.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tech Stack
+- **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
+- **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
+- **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
+- **Animaciones:** [Framer Motion](https://www.framer.com/motion/)
+- **Tipografía:** Geist Mono (Vercel)
 
-## Learn More
+## 📦 Instalación y Uso
 
-To learn more about Next.js, take a look at the following resources:
+1. Clonar el repositorio:
+   git clone [https://github.com/TU_USUARIO/stagebook-web.git](https://github.com/TU_USUARIO/stagebook-web.git)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Instalar dependencias:
+    npm install
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. Correr el servidor de desarrollo
+    npm run dev
+    
+Roadmap de Desarrollo
+[x] Semana 1: Landing Page, Sistema de diseño y Animaciones core.
 
-## Deploy on Vercel
+[ ] Semana 2: Autenticación de usuarios y Estructura de Dashboard.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+[ ] Semana 3: Editor de textos dramáticos y Gestión de proyectos.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[ ] Semana 4: Galería de obras y despliegue final.
+
+Creado con ❤️ por Yo´s Company

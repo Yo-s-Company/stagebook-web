@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+:root {
+  --background: #E5E4E2;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-typewriter: var(..)
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #000000;
+    --foreground: #ffffff;
+  }
+}
+
+@layer utilities {
+  .animate-soft-pulse {
+    animation: soft-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes soft-pulse {
+    0%, 100% {
+      opacity: 0.8; /* Casi encendido */
+    }
+    50% {
+      opacity: 0.1; /* Se apaga casi por completo */
+    }
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-mono), monospace;
+}
