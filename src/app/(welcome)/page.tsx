@@ -10,7 +10,7 @@ export default function WelcomePage() {
 
 <nav className="relative w-full p-6">
   {/* FIRMA */}
-  <div className="absolute top-4 left-8 flex items-center gap-1 z-50">
+  <div className="flex top-4 left-8 flex items-center gap-1 z-50">
     <div className="relative w-12 h-12">
       <Image
         src="/logo.png"
@@ -42,7 +42,7 @@ export default function WelcomePage() {
       {/* BLOQUE 2: TÍTULO CENTRAL (STAGEBOOK) */}
       <div className="flex flex-col items-center mt-4">
         <h1 className="text-6xl md:text-8xl font-extrabold tracking-tighter">
-          STAGE<span className="text-red-600">BOOK</span>
+          STAGE<span className="text-red-800">BOOK</span>
         </h1>
       <div className="text-xs font-mono uppercase tracking-[0.3em] mt-2 text-zinc-500">
         <Typewriter 
