@@ -64,7 +64,7 @@ export default function LoginPage() {
             <input
               type="email"
               value={email}
-              className="bg-transparent flex-1 font-mono outline-none placeholder:text-zinc-700"
+              className="bg-transparent flex-1 font-mono outline-none placeholder:text-zinc-700/50"
               onFocus={() => { setEmailFocused(true); setError(false); }}
               onBlur={() => setEmailFocused(false)}
               onChange={(e) => setEmail(e.target.value)}
@@ -96,7 +96,7 @@ export default function LoginPage() {
               type={showPassword ? "text" : "password"}
               value={password}
               placeholder="••••••••"
-              className="bg-transparent flex-1 font-mono outline-none placeholder:text-zinc-700 tracking-widest"
+              className="bg-transparent flex-1 font-mono outline-none placeholder:text-zinc-700/50 tracking-widest"
               onFocus={() => { setPasswordFocused(true); setError(false); }}
               onBlur={() => setPasswordFocused(false)}
               onChange={(e) => setPassword(e.target.value)}
