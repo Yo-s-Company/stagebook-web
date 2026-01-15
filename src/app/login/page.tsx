@@ -2,147 +2,168 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation'; // Para redirigir
 import Cursor from '@/src/components/Cursor'; 
 import Typewriter from '@/src/components/Typewriter';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { supabase } from '@/src/lib/supabase'; // Tu cliente de supabase
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [emailFocused, setEmailFocused] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  
+  // Estados de UI
   const [error, setError] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
   const [buttonText, setButtonText] = useState("ENTRAR A ESCENA");
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    setError(false);
+    setIsShaking(false);
+
+    // 1. Validación básica
     if (!email || !password) {
       setError(true);
       setIsShaking(true);
-      setButtonText("ERROR EN EL LIBRETO");
-      
-      // Reset de animación y texto
-      setTimeout(() => {
-        setIsShaking(false);
-        setButtonText("ENTRAR A ESCENA");
-      }, 200);
+      setButtonText("LIBRETO INCOMPLETO");
+      setTimeout(() => setIsShaking(false), 500);
       return;
     }
-    console.log("Entrando a escena...");
+
+    setButtonText("VERIFICANDO CREDENCIALES...");
+
+    // 2. Intento de inicio de sesión
+    const { data, error: authError } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (authError) {
+      setError(true);
+      setIsShaking(true);
+      
+      // Personalizamos el error
+    if (authError.status === 400 || authError.message.includes("Invalid login credentials")) {
+          setButtonText("DATOS INCORRECTOS");
+        } else if (authError.message.includes("Email not confirmed")) {
+          setButtonText("REVISA TU CORREO");
+        } else {
+          setButtonText("FALLO EN EL ESTRENO");
+        }
+
+        console.error("Error de acceso:", authError.message);
+        setTimeout(() => setIsShaking(false), 500);
+        return;
+      }
+
+    // 3. Éxito
+    setButtonText("¡TELÓN ARRIBA!");
+    
+    // Pequeña pausa para que el usuario vea el éxito antes de saltar al Dashboard
+    setTimeout(() => {
+      router.push('/dashboard'); 
+    }, 800);
+  };
+
+  // Función para Login con Google (reutilizando la lógica del Registro)
+  const handleGoogleLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+    if (error) console.error(error.message);
   };
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center px-6">
-      
-      {/* Sección Logo/Header */}
-      <div className="flex flex-col items-center mb-12">
-        <div className="relative w-20 h-20 mb-4">
-          <Image src="/logo.png" alt="Logo" fill className="object-contain" priority />
-        </div>
-        <h1 className="text-4xl font-mono font-bold tracking-tighter ">
-          STAGE<span className="text-red-600">BOOK</span>
-        </h1>
-        <div className="h-6">
-          <Typewriter text="Bienvenido, artista" speed={80} className="text-zinc-500 text-sm italic" />
-        </div>
-      </div>
-
-      {/* Formulario */}
-      <div className="w-full max-w-md space-y-6">
+    <main className="min-h-screen bg-black flex flex-col items-center justify-center px-6 py-12">
+      <div className={`w-full max-w-md space-y-8 transition-all ${isShaking ? '[animation:shake_0.15s_ease-in-out_infinite]' : ''}`}>
         
-        {/* Campo de Email: Cursor morado -> rojo si hay error */}
-        <div className={`relative group mt-8 ${isShaking ? '[animation:shake_0.15s_ease-in-out_infinite]' : ''}`}>
-          <label className={`text-[10px] uppercase tracking-widest mb-2 block ml-2 
-            ${error && !email ? 'text-red-500' : 'text-zinc-500'}`}>
-            Identificación (Email)
-          </label>
-          
-          <div className={`flex items-center border-b-2 transition-colors duration-300 py-3 px-2 
-            ${error && !email ? 'border-red-600' : emailFocused ? 'border-purple-600' : 'border-zinc-800'}`}>
-            
-            <input
-              type="email"
-              value={email}
-              className="bg-transparent flex-1 font-mono outline-none placeholder:text-zinc-700/50"
-              onFocus={() => { setEmailFocused(true); setError(false); }}
-              onBlur={() => setEmailFocused(false)}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Escribe tu correo..."
-            />
-            
-            <Cursor 
-              isAnimating={emailFocused} 
-              colorClass={error && !email ? "bg-red-600" : "bg-purple-600"} 
-            />
+        {/* Header */}
+        <div className="flex flex-col items-center mb-10 text-center">
+          <div className="relative w-16 h-16 mb-4 opacity-80">
+            <Image src="/logo.png" alt="Logo" fill className="object-contain" />
           </div>
-          
-          {error && !email && (
-            <span className="text-[10px] text-red-500 mt-1 ml-2 font-mono italic animate-in fade-in duration-500">
-              Este campo es obligatorio para la función
-            </span>
-          )}
+          <h1 className="text-3xl font-mono font-bold tracking-tighter text-[#F9F6EE]">
+            STAGE<span className="text-red-600">BOOK</span>
+          </h1>
+          <div className="h-6">
+            <Typewriter text="Identifícate para entrar a tu camerino..." speed={70} className="text-zinc-500 text-sm italic" />
+          </div>
         </div>
 
-        {/* Campo de Password: Cursor Morado -> Rojo si hay error */}
-        <div className={`relative group mt-8 ${isShaking ? '[animation:shake_0.15s_ease-in-out_infinite]' : ''}`}>
-          <label className={`text-[10px] uppercase tracking-widest mb-2 block ml-2
-            ${error && !password ? 'text-red-500' : 'text-zinc-500'}`}>
-            Clave de acceso
-          </label>
-          <div className={`flex items-center border-b-2 transition-colors duration-300 py-3 px-2 
-            ${error && !password ? 'border-red-600' : passwordFocused ? 'border-purple-600' : 'border-zinc-800'}`}>
-            <input
-              type={showPassword ? "text" : "password"}
-              value={password}
-              placeholder="••••••••"
-              className="bg-transparent flex-1 font-mono outline-none placeholder:text-zinc-700/50 tracking-widest"
-              onFocus={() => { setPasswordFocused(true); setError(false); }}
-              onBlur={() => setPasswordFocused(false)}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            
-            <button 
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="text-zinc-500 hover:text-purple-400 transition-colors mx-2"
-            >
-              {showPassword ? <EyeSlashIcon className="w-5 h-5" /> : <EyeIcon className="w-5 h-5" />}
-            </button>
-
-            <Cursor 
-              isAnimating={passwordFocused} 
-              colorClass={error && !password ? "bg-red-600" : "bg-purple-600"} 
-            />
+        {/* Formulario */}
+        <div className="space-y-6">
+          {/* Email */}
+          <div className="relative group">
+            <label className={`text-[10px] uppercase tracking-widest mb-2 block ml-2 transition-colors ${error ? 'text-red-500' : 'text-zinc-500'}`}>
+              Correo del Artista
+            </label>
+            <div className={`flex items-center border-b-2 transition-colors duration-300 py-3 px-2 ${error ? 'border-red-600' : emailFocused ? 'border-purple-600' : 'border-zinc-800'}`}>
+              <input
+                type="email"
+                className="bg-transparent flex-1 text-[#F9F6EE] font-mono outline-none placeholder:text-zinc-500/30"
+                onFocus={() => { setEmailFocused(true); setError(false); }}
+                onBlur={() => setEmailFocused(false)}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="email@ejemplo.com"
+              />
+              <Cursor isAnimating={emailFocused} colorClass={error ? "bg-red-600" : "bg-purple-600"} />
+            </div>
           </div>
-          {error && !password && (
-            <span className="text-[10px] text-red-500 mt-1 ml-2 font-mono italic animate-in fade-in duration-500">
-              La clave es necesaria para abrir el telón
-            </span>
-          )}
+
+          {/* Password */}
+          <div className="relative group">
+            <label className={`text-[10px] uppercase tracking-widest mb-2 block ml-2 transition-colors ${error ? 'text-red-500' : 'text-zinc-500'}`}>
+              Clave de Acceso
+            </label>
+            <div className={`flex items-center border-b-2 transition-colors duration-300 py-3 px-2 ${error ? 'border-red-600' : passwordFocused ? 'border-red-600' : 'border-zinc-800'}`}>
+              <input
+                type={showPassword ? "text" : "password"}
+                className="bg-transparent flex-1 text-[#F9F6EE] font-mono outline-none"
+                onFocus={() => { setPasswordFocused(true); setError(false); }}
+                onBlur={() => setPasswordFocused(false)}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <button 
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="text-zinc-600 hover:text-zinc-400 px-2"
+              >
+                {showPassword ? <EyeSlashIcon className="w-5 h-5" /> : <EyeIcon className="w-5 h-5" />}
+              </button>
+              <Cursor isAnimating={passwordFocused} colorClass="bg-red-600" />
+            </div>
+          </div>
+
+          {/* Botón Principal */}
+          <button 
+            onClick={handleLogin}
+            className={`w-full font-mono py-4 rounded-full transition-all duration-300 font-bold active:scale-95 uppercase tracking-widest text-sm border-2 mt-4
+              ${error ? 'bg-red-700 border-red-700 text-white' : 'bg-[#F9F6EE] border-zinc-800 text-black hover:bg-red-600 hover:text-white hover:border-red-600'}`}
+          >
+            {buttonText}
+          </button>
+
+          {/* Google */}
+          <button 
+            onClick={handleGoogleLogin}
+            className="w-full border border-zinc-800 text-zinc-400 font-mono py-4 rounded-full hover:bg-purple-900/10 hover:border-purple-600 transition-colors flex items-center justify-center gap-3 active:scale-95"
+          >
+            <span className="text-xs uppercase tracking-widest">Continuar con Google</span>
+          </button>
+
+          <div className="text-center pt-4">
+            <Link href="/register" className="text-zinc-600 text-[10px] uppercase tracking-widest hover:text-[#F9F6EE] transition-colors">
+              ¿Aún no tienes libreto? Registrate aquí
+            </Link>
+          </div>
         </div>
-
-        {/* Botón de Entrada */}
-        <button 
-          onClick={handleLogin}
-          className={`w-full font-mono py-4 rounded-full transition-all duration-300 shadow-lg active:scale-95 uppercase tracking-widest text-sm
-            ${error ? 'bg-red-700 shadow-red-900/20' : 'bg-[#7C3AED] shadow-purple-900/20'} 
-            text-[#F9F6EE] font-bold mt-4`}
-        >
-          {buttonText}
-        </button>
-
-        {/* Alternativa Google */}
-        <button className="w-full border border-zinc-800 text-zinc-400 font-mono py-4 rounded-full hover:bg-purple-500 hover:text-white transition-colors flex items-center justify-center gap-3">
-          <span>Continuar con Google</span>
-        </button>
-      </div>
-
-      {/* Footer */}
-      <div className="mt-12 text-center">
-        <p className="text-zinc-500 text-xs font-mono uppercase tracking-widest">
-          ¿No tienes cuenta? <Link href="/register" className="text-red-600 hover:underline">Regístrate</Link>
-        </p>
       </div>
     </main>
   );
