@@ -7,7 +7,6 @@ export async function GET(request: Request) {
   const url = new URL(request.url)
   const code = url.searchParams.get('code')
 
-  // ✅ await aquí
   const cookieStore = await cookies()
 
   if (code) {

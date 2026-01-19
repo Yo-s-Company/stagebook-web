@@ -1,6 +1,7 @@
-//Este layout es el primer archivo que se renderiza y envuelve a todas las paginas
+// app/layout.tsx
 import { Geist_Mono } from "next/font/google"; 
-import "./globals.css"; //Le da estilos a todo el proyecto
+import "./globals.css"; 
+import MainLayout from "@/src/components/MainLayout"; 
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -10,9 +11,10 @@ const geistMono = Geist_Mono({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
-      {/* antialiased es una utilidad de Tailwind que hace que las fuentes se vean muchas mas suaves y finas en pantallas de altaresulcion*/}
-      <body className={`${geistMono.variable} antialiased`}> 
-        {children}
+      <body className={`${geistMono.variable} antialiased bg-black`}> 
+        <MainLayout>
+          {children}
+        </MainLayout>
       </body>
     </html>
   );

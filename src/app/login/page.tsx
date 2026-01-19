@@ -2,11 +2,11 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation'; // Para redirigir
+import { useRouter } from 'next/navigation';
 import Cursor from '@/src/components/Cursor'; 
 import Typewriter from '@/src/components/Typewriter';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
-import { supabase } from '@/src/lib/supabase'; // Tu cliente de supabase
+import { supabase } from '@/src/lib/supabase';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -16,7 +16,6 @@ export default function LoginPage() {
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   
-  // Estados de UI
   const [error, setError] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
   const [buttonText, setButtonText] = useState("ENTRAR A ESCENA");
@@ -25,7 +24,6 @@ export default function LoginPage() {
     setError(false);
     setIsShaking(false);
 
-    // 1. Validación básica
     if (!email || !password) {
       setError(true);
       setIsShaking(true);
@@ -36,8 +34,7 @@ export default function LoginPage() {
 
     setButtonText("VERIFICANDO CREDENCIALES...");
 
-    // 2. Intento de inicio de sesión
-    const { data, error: authError } = await supabase.auth.signInWithPassword({
+    const { data: { user }, error: authError } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -46,30 +43,40 @@ export default function LoginPage() {
       setError(true);
       setIsShaking(true);
       
-      // Personalizamos el error
-    if (authError.status === 400 || authError.message.includes("Invalid login credentials")) {
-          setButtonText("DATOS INCORRECTOS");
-        } else if (authError.message.includes("Email not confirmed")) {
-          setButtonText("REVISA TU CORREO");
-        } else {
-          setButtonText("FALLO EN EL ESTRENO");
-        }
-
-        console.error("Error de acceso:", authError.message);
-        setTimeout(() => setIsShaking(false), 500);
-        return;
+      if (authError.status === 400 || authError.message.includes("Invalid login credentials")) {
+        setButtonText("DATOS INCORRECTOS");
+      } else if (authError.message.includes("Email not confirmed")) {
+        setButtonText("REVISA TU CORREO");
+      } else {
+        setButtonText("FALLO EN EL ESTRENO");
       }
 
-    // 3. Éxito
-    setButtonText("¡TELÓN ARRIBA!");
-    
-    // Pequeña pausa para que el usuario vea el éxito antes de saltar al Dashboard
-    setTimeout(() => {
-      router.push('/dashboard'); 
-    }, 800);
+      console.error("Error de acceso:", authError.message);
+      setTimeout(() => setIsShaking(false), 500);
+      return;
+    }
+
+    // --- LÓGICA DE ÉXITO Y REDIRECCIÓN ---
+    if (user) {
+      setButtonText("¡TELÓN ARRIBA!");
+      
+      // Consultamos si el perfil ya tiene un username
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('username')
+        .eq('id', user.id)
+        .single();
+
+      setTimeout(() => {
+        if (!profile?.username) {
+          router.push('/onboarding');
+        } else {
+          router.push('/dashboard');
+        }
+      }, 800);
+    }
   };
 
-  // Función para Login con Google (reutilizando la lógica del Registro)
   const handleGoogleLogin = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
@@ -84,7 +91,6 @@ export default function LoginPage() {
     <main className="min-h-screen bg-black flex flex-col items-center justify-center px-6 py-12">
       <div className={`w-full max-w-md space-y-8 transition-all ${isShaking ? '[animation:shake_0.15s_ease-in-out_infinite]' : ''}`}>
         
-        {/* Header */}
         <div className="flex flex-col items-center mb-10 text-center">
           <div className="relative w-16 h-16 mb-4 opacity-80">
             <Image src="/logo.png" alt="Logo" fill className="object-contain" />
@@ -97,9 +103,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Formulario */}
         <div className="space-y-6">
-          {/* Email */}
           <div className="relative group">
             <label className={`text-[10px] uppercase tracking-widest mb-2 block ml-2 transition-colors ${error ? 'text-red-500' : 'text-zinc-500'}`}>
               Correo del Artista
@@ -117,7 +121,6 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Password */}
           <div className="relative group">
             <label className={`text-[10px] uppercase tracking-widest mb-2 block ml-2 transition-colors ${error ? 'text-red-500' : 'text-zinc-500'}`}>
               Clave de Acceso
@@ -141,7 +144,6 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Botón Principal */}
           <button 
             onClick={handleLogin}
             className={`w-full font-mono py-4 rounded-full transition-all duration-300 font-bold active:scale-95 uppercase tracking-widest text-sm border-2 mt-4
@@ -150,7 +152,6 @@ export default function LoginPage() {
             {buttonText}
           </button>
 
-          {/* Google */}
           <button 
             onClick={handleGoogleLogin}
             className="w-full border border-zinc-800 text-zinc-400 font-mono py-4 rounded-full hover:bg-purple-900/10 hover:border-purple-600 transition-colors flex items-center justify-center gap-3 active:scale-95"

@@ -1,5 +1,5 @@
 // src/interfaces/index.ts
-//Este archivo contiene el MODELO DE DOMINIO. define la estructura de los objetos que exinten en tu base de datos o logica de negocio. Al consultar un proyecto o ensayo TypeScreipt sabra que campos tiene
+//Este archivo contiene el MODELO DE DOMINIO. define la estructura de los objetos que exinten en tu base de datos o logica de negocio. Al consultar un proyecto o ensayo TypeScript sabra que campos tiene
 // 1. TIPOS DE APOYO (UNIONES DE LITERALES)
 
 export type ProjectStatus = 'Activo' | 'Finalizado' | 'Borrador' | 'En Pausa';
@@ -58,4 +58,28 @@ export interface ProductionNeed {
     text: string;
     createdAt: string | Date;
     isUrgent: boolean; 
+}
+//invitaciones y compañias
+export interface CompaniaHistorial {
+  nombre: string;
+  rol: string;
+  estado: 'Actual' | 'Pasada';
+}
+
+export interface ProfileState {
+  id: string;
+  username: string;
+  bio: string;
+  avatar: string;
+  habilidades: string[];
+  idiomas: string[];
+  formacion: string[];
+  companias: CompaniaHistorial[]; 
+}
+export interface InvitadoTemporal {
+  id: string;
+  username: string;
+  email: string;
+  role: 'Actor' | 'Técnico' | 'Asistente de Dirección';
+  avatar_url?: string;
 }
