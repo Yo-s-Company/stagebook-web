@@ -7,7 +7,8 @@ import {
   CalendarIcon, 
   AdjustmentsHorizontalIcon, 
   ArrowLeftOnRectangleIcon, 
-  FolderPlusIcon
+  FolderPlusIcon,
+  BuildingOfficeIcon
 } from '@heroicons/react/24/outline';
 
 export default function Sidebar() {
@@ -44,6 +45,7 @@ export default function Sidebar() {
     { name: 'Cartelera', icon: TicketIcon, href: '/dashboard' },
     { name: 'Agenda', icon: CalendarIcon, href: '/calendar' },
     { name: 'Proyectos', icon: FolderPlusIcon, href: '/projects'},
+    { name: 'Compañias', icon: BuildingOfficeIcon, href: '/companias'},
     { name: 'Ajustes', icon: AdjustmentsHorizontalIcon, href: '/settings' },
   ];
 
