@@ -41,9 +41,6 @@ export default function CalendarPage() {
             </div>
           </div>
         </header>
-
-        {/* Aquí iría el resto del contenido del calendario... */}
-
       </div>
     </main>
   );
