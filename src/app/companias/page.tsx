@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const miembrosCompania = [
@@ -15,7 +16,6 @@ export default function TuCompaniaPage() {
 
   return (
     <div className="min-h-screen bg-black text-[#F9F6EE] p-8 md:p-12 font-mono">
-      
       <header className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 border-b border-zinc-900 pb-6 gap-6">
         <div>
           <p className="text-zinc-500 text-xs tracking-[0.2em] mb-2 uppercase">
@@ -33,9 +33,12 @@ export default function TuCompaniaPage() {
           >
             Personalizar
           </button>
-          <button className="px-6 py-2 rounded-xl bg-red-600 text-[#F9F6EE] hover:bg-red-700 transition-all text-sm uppercase tracking-wider font-bold shadow-[0_0_15px_rgba(220,38,38,0.3)]">
+          <Link 
+            href="/companias/invitar"
+            className="px-6 py-2 rounded-xl bg-red-600 text-[#F9F6EE] hover:bg-red-700 transition-all text-sm uppercase tracking-wider font-bold shadow-[0_0_15px_rgba(220,38,38,0.3)] flex items-center justify-center"
+          >
             + Invitar
-          </button>
+          </Link>
         </div>
       </header>
 
@@ -118,7 +121,6 @@ export default function TuCompaniaPage() {
           </motion.div>
         )}
       </AnimatePresence>
-
     </div>
   );
 }
