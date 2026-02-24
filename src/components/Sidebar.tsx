@@ -10,10 +10,12 @@ import {
   FolderPlusIcon,
   BuildingOfficeIcon
 } from '@heroicons/react/24/outline';
+import { usePathname } from 'next/navigation';
 
 export default function Sidebar() {
   const [isHovered, setIsHovered] = useState(false);
   const [userData, setUserData] = useState({ username: 'Artista', avatar: '' });
+  const pathname = usePathname();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -44,7 +46,7 @@ export default function Sidebar() {
   const menuItems = [
     { name: 'Cartelera', icon: TicketIcon, href: '/dashboard' },
     { name: 'Agenda', icon: CalendarIcon, href: '/calendar' },
-    { name: 'Proyectos', icon: FolderPlusIcon, href: '/projects'},
+    { name: 'Proyectos', icon: FolderPlusIcon, href: '/proyectos'},
     { name: 'Compañias', icon: BuildingOfficeIcon, href: '/companias'},
     { name: 'Ajustes', icon: AdjustmentsHorizontalIcon, href: '/settings' },
   ];
