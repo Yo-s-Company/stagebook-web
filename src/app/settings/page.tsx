@@ -38,7 +38,6 @@ export default function SettingsPage() {
                 <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest ml-1">Nombre en el programa</label>
                 <input 
                   type="text" 
-                  defaultValue="Daniel"
                   className="mt-1 w-full bg-zinc-950 border border-zinc-800 rounded-xl py-3 px-4 text-white focus:border-red-600 focus:ring-1 focus:ring-red-600 outline-none transition-all"
                 />
               </div>
@@ -49,7 +48,7 @@ export default function SettingsPage() {
                   <option>Productor</option>
                   <option>Actor / Actriz</option>
                   <option>Traspunte / Stage Manager</option>
-                  <option>Diseñador Técnico</option>
+                  <option>Diseñador Tecnico</option>
                 </select>
               </div>
             </div>
@@ -58,7 +57,7 @@ export default function SettingsPage() {
           <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 shadow-2xl backdrop-blur-sm">
             <div className="flex items-center gap-3 mb-6 border-b border-zinc-800 pb-4">
               <BellAlertIcon className="w-6 h-6 text-red-600" />
-              <h2 className="text-lg font-bold uppercase tracking-widest">Alertas de Prevención</h2>
+              <h2 className="text-lg font-bold uppercase tracking-widest">Alertas de Prevencion</h2>
             </div>
 
             <div className="space-y-6">
@@ -96,7 +95,7 @@ export default function SettingsPage() {
           <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 shadow-2xl backdrop-blur-sm">
             <div className="flex items-center gap-3 mb-6 border-b border-zinc-800 pb-4">
               <MoonIcon className="w-6 h-6 text-red-600" />
-              <h2 className="text-lg font-bold uppercase tracking-widest">Iluminación</h2>
+              <h2 className="text-lg font-bold uppercase tracking-widest">Iluminacion</h2>
             </div>
 
             <div className="flex items-center justify-between">
