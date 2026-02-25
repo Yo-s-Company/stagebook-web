@@ -1,3 +1,5 @@
+"use client";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Typewriter from "@/src/components/Typewriter";
@@ -5,78 +7,96 @@ import ScrollingTypewriter from "@/src/components/ScrollingTypewriter";
 
 export default function WelcomePage() {
   return (
-    // min-h-screen y flex-col permiten que el nav se quede arriba y el main use el resto
-    <div className="min-h-screen flex flex-col transition-colors">
-
-<nav className="relative w-full p-6">
-  {/* FIRMA */}
-  <div className="flex top-4 left-8 flex items-center gap-1 z-50">
-    <div className="relative w-12 h-12">
-      <Image
-        src="/logo.png"
-        alt="StageBook Logo"
-        fill
-        className="object-contain"
-        priority
-      />
-    </div>
-      <span className="text-[9px] font-mono uppercase tracking-[0.2em] opacity-80 whitespace-nowrap">
-        Una aplicación de <span className="text-[10px] text-purple-600 font-bold">Yo´s company</span>
-      </span>
-  </div>
-
-  {/* ACCIONES*/}
-  <div className="flex justify-end items-center gap-4 max-w-7xl mx-auto w-full">
-    <Link href="/login" className="text-sm font-mono hover:text-red-600 transition-colors text-purple-600">
-      Entrar
-    </Link>
-    <Link 
-      href="/register" 
-      className="text-sm font-mono bg-[#F9F6EE] text-black px-6 py-2 rounded-full font-bold hover:bg-zinc-200 transition-all shadow-md"
-    >
-      Registro
-    </Link>
-  </div>
-</nav>
-
-      {/* BLOQUE 2: TÍTULO CENTRAL (STAGEBOOK) */}
-      <div className="flex flex-col items-center mt-4">
-        <h1 className="text-6xl md:text-8xl font-extrabold tracking-tighter">
-          STAGE<span className="text-[#FF0000]">BOOK</span>
-        </h1>
-      <div className="text-xs font-mono uppercase tracking-[0.3em] mt-2 text-zinc-500">
-        <Typewriter 
-          text="ARTISTIC PLANNER & PORTFOLIO" 
-          speed={150} 
-          className="text-zinc-500"
-        />
-      </div>
-      </div>
-
-      {/* BLOQUE 3: TEXTO A LA IZQUIERDA (CONTENIDO) */}
-      <main className="flex-grow flex items-end pb-20 px-10">
-        <div className="max-w-2xl text-left"> {/* text-left alinea a la izquierda */}
-          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-2  leading-tight">
-            Control total en el <br />
-            <span className="text-[#FF0000]">escenario</span>
-        {/* Decoración vertical roja */}
-        <div className="mt-2 h-1 w-32 bg-purple-600 rounded-full animate-pulse"></div>
-          </h2>
-                  
-        <div className="mb-10 max-w-lg font-mono">
-          <ScrollingTypewriter />
-          <p className="text-zinc-500 text-sm mt-0.5">
-            Evoluciona tus proyectos a la era digital del teatro.
-          </p>
+    <div className="min-h-screen flex flex-col bg-black text-[#F9F6EE] selection:bg-red-600 selection:text-white transition-colors overflow-hidden">
+      
+      {/* NAVEGACIÓN SUPERIOR */}
+      <nav className="w-full p-8 flex justify-between items-center z-50">
+        {/* LOGO Y FIRMA */}
+        <div className="flex items-center gap-4 group">
+          <div className="relative w-10 h-10 transition-transform group-hover:rotate-12">
+            <Image
+              src="/logo.png"
+              alt="StageBook Logo"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-500">
+              Desarrollado por
+            </span>
+            <span className="text-[11px] text-purple-500 font-black uppercase tracking-widest">
+              Yo´s Company
+            </span>
+          </div>
         </div>
 
-          <div className="flex gap-4">
-            <Link 
-              href="/dashboard" 
-              className="px-8 py-4 bg-red-600 text-white rounded-lg font-bold hover:bg-red-700 transition-all shadow-lg">
-              ¡EXPLÓRALA!
-            </Link>
+        {/* ACCIONES DE USUARIO */}
+        <div className="flex items-center gap-6">
+          <Link 
+            href="/login" 
+            className="text-[10px] font-mono font-bold uppercase tracking-widest hover:text-red-600 transition-colors"
+          >
+            Entrar
+          </Link>
+          <Link 
+            href="/register" 
+            className="text-[10px] font-mono bg-[#F9F6EE] text-black px-8 py-3 rounded-full font-black uppercase tracking-tighter hover:bg-red-600 hover:text-white transition-all shadow-xl hover:scale-105 active:scale-95"
+          >
+            Registro
+          </Link>
+        </div>
+      </nav>
+
+      {/* TÍTULO HERO CENTRAL */}
+      <section className="flex-1 flex flex-col items-center justify-center -mt-20 relative">
+        <div className="absolute w-[500px] h-[500px] bg-red-600/10 rounded-full blur-[120px] -z-10 animate-pulse" />
+        
+        <h1 className="text-7xl md:text-[10rem] font-black tracking-[ -0.05em] leading-none mb-4">
+          STAGE<span className="text-red-600 italic">BOOK</span>
+        </h1>
+        
+        <div className="h-6">
+          <Typewriter 
+            text="ARTISTIC PLANNER & PORTFOLIO" 
+            speed={80} 
+            className="text-zinc-500 text-[10px] md:text-xs font-mono uppercase tracking-[0.5em]"
+          />
+        </div>
+      </section>
+
+      {/* FOOTER / CONTENIDO INFERIOR */}
+      <main className="pb-20 px-10 md:px-24 grid grid-cols-1 md:grid-cols-2 items-end gap-12">
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9]">
+              Control total en el <br />
+              <span className="text-red-600 italic">escenario</span>
+            </h2>
+            <div className="h-1.5 w-40 bg-purple-600 rounded-full shadow-[0_0_15px_rgba(147,51,234,0.5)]" />
           </div>
+                  
+          <div className="max-w-md space-y-1">
+            <div className="text-zinc-300 font-mono text-sm leading-relaxed">
+              <ScrollingTypewriter />
+            </div>
+            <p className="text-zinc-600 text-[10px] font-mono uppercase tracking-tight italic">
+              Evoluciona tus proyectos a la era digital del teatro.
+            </p>
+          </div>
+
+          <Link 
+            href="/dashboard" 
+            className="inline-block px-10 py-5 bg-red-600 text-white rounded-xl font-black uppercase text-xs tracking-[0.2em] hover:bg-white hover:text-black transition-all shadow-[0_10px_30px_rgba(220,38,38,0.3)] hover:-translate-y-1 active:translate-y-0"
+          >
+            ¡EXPLÓRALA!
+          </Link>
+        </div>
+
+        {/* ELEMENTO DECORATIVO DERECHO */}
+        <div className="hidden md:flex justify-end italic font-mono text-[8px] text-zinc-800 uppercase tracking-[1em] vertical-text">
+          StageBook // 2026 // Season Premiere
         </div>
       </main>
     </div>
