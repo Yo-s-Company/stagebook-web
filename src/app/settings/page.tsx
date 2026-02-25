@@ -24,6 +24,21 @@ export default function SettingsPage() {
           <h1 className="text-4xl font-bold tracking-tighter uppercase leading-none">
             Ajustes de <span className="text-red-600">Camerino</span>
           </h1>
+
+          <div className="mt-8 bg-green-950/40 border border-green-600/50 rounded-xl p-5 flex items-start gap-4 shadow-[0_0_20px_rgba(22,163,74,0.1)]">
+            <div className="bg-green-600/20 p-2 rounded-full">
+              <CheckIcon className="w-6 h-6 text-green-500" />
+            </div>
+            <div>
+              <h2 className="text-green-400 font-bold uppercase tracking-widest text-sm mb-1">
+                Prueba de Despliegue Exitosa
+              </h2>
+              <p className="text-green-200/70 font-mono text-xs leading-relaxed">
+                Proyecto StageBook actualizado y desplegado simultáneamente en <span className="text-white font-bold">Microsoft Azure</span> y <span className="text-white font-bold">GitHub Pages</span>. 
+              </p>
+            </div>
+          </div>
+
         </header>
 
         <div className="space-y-6">
