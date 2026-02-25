@@ -44,7 +44,7 @@ export default function Sidebar() {
   const menuItems = [
     { name: 'Cartelera', icon: TicketIcon, href: '/dashboard' },
     { name: 'Agenda', icon: CalendarIcon, href: '/calendar' },
-    { name: 'Proyectos', icon: FolderPlusIcon, href: '/projects'},
+    { name: 'Proyectos', icon: FolderPlusIcon, href: '/proyectos'},
     { name: 'Compañias', icon: BuildingOfficeIcon, href: '/companias'},
     { name: 'Ajustes', icon: AdjustmentsHorizontalIcon, href: '/settings' },
   ];
