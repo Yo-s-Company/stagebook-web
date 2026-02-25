@@ -10,10 +10,12 @@ import {
   FolderPlusIcon,
   BuildingOfficeIcon
 } from '@heroicons/react/24/outline';
+import { usePathname } from 'next/navigation';
 
 export default function Sidebar() {
   const [isHovered, setIsHovered] = useState(false);
   const [userData, setUserData] = useState({ username: 'Artista', avatar: '' });
+  const pathname = usePathname();
 
   useEffect(() => {
     const fetchProfile = async () => {
