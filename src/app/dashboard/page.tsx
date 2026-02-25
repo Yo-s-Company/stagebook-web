@@ -67,7 +67,6 @@ async function fetchProjects() {
     .order('created_at', { ascending: false });
 
   if (!error) {
-    // Mapeamos los datos para que coincidan con tu diseño visual
     const formattedProjects = data.map(proj => ({
       id: proj.id,
       title: proj.title,
@@ -175,12 +174,6 @@ setErrorModal({
     }, 3000);
       }
   }
-
-  const activeProjects = [
-    { id: '1', title: 'Hamlet: El Retorno', characters: 12, status: 'Ensayo' },
-    { id: '2', title: 'Bodas de Sangre', characters: 8, status: 'Lectura' },
-    { id: '3', title: 'Esperando a Godot', characters: 4, status: 'Montaje' },
-  ];
 
   const upcomingEvents = [
     { id: '101', type: 'Ensayo General', project: 'Hamlet', time: '18:00 hrs', date: 'Hoy' },
